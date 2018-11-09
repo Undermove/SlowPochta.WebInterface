@@ -50,7 +50,7 @@ class Incomings extends Component{
                     return (
                       <TableRow key={row.id}>
                         <TableCell component="th" scope="row">
-                          {row.modelName}
+                            {row.modelName}
                         </TableCell>
                         <TableCell>{row.vendorName}</TableCell>    
                         <TableCell>{row.version}</TableCell>                      

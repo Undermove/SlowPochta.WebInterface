@@ -38,7 +38,6 @@ class SentMessages extends Component{
         {<Table>
             <TableHead>
                   <TableRow>
-                    <TableCell>Наименование</TableCell>
                     <TableCell>Производитель</TableCell>
                     <TableCell>Версия прошивки</TableCell>
                     <TableCell></TableCell>

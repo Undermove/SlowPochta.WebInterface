@@ -70,7 +70,7 @@ class App extends Component {
             <Toolbar>
               <Typography variant="h6" color="inherit" className={classes.grow}>
                 SlowPochta
-            </Typography>
+              </Typography>
               <Button color="inherit">Вход</Button>
             </Toolbar>
           </AppBar>

@@ -17,6 +17,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Incomings from './screens/incoming/incomings';
 import Incoming from './screens/incoming/incoming';
+import SentMessages from './screens/sentMessage/sentMessages';
+import SentMessage from './screens/sentMessage/sentMessage';
+import NewMessage from './screens/newMessage/newMessage';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 const styles = theme => ({
@@ -25,18 +28,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
 });
-
-function TabContainer(props) {
-    return (
-      <Typography component="div" style={{ padding: 8 * 3 }}>
-        {props.children}
-      </Typography>
-    );
-  }
-
-TabContainer.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
 
 class SelectedListItem extends React.Component {
   constructor(props){
@@ -100,9 +91,9 @@ class SelectedListItem extends React.Component {
                                 textColor="inherit"
                                 onChange={this.handleChange}
                             >
-                                <Tab label="Входящие" />
-                                <Tab label="Исходящие" component = {Link} to="/incomings"/>
-                                <Tab label="Написать новое" />
+                                <Tab label="Входящие" component = {Link} to="/incomings"/>
+                                <Tab label="Исходящие" component = {Link} to="/sentMessages"/>
+                                <Tab label="Написать новое" component = {Link} to="/newMessage"/>
                             </Tabs>
                         </Paper>
                         <Route exact path='/' render={(props) => (
@@ -110,6 +101,12 @@ class SelectedListItem extends React.Component {
                         )}/>
                         <Route path='/incomings' render={(props) => (
                             <Incomings {...props} onError={this.onError} />
+                        )}/>
+                        <Route path='/sentMessages' render={(props) => (
+                            <SentMessages {...props} onError={this.onError} />
+                        )}/>
+                        <Route path='/newMessage' render={(props) => (
+                            <NewMessage {...props} onError={this.onError} />
                         )}/>
                     </div>
                 </Router>
