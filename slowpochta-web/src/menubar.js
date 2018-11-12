@@ -29,7 +29,7 @@ const styles = theme => ({
   },
 });
 
-class SelectedListItem extends React.Component {
+class MenuBar extends React.Component {
   constructor(props){
     super(props);
     
@@ -81,43 +81,47 @@ class SelectedListItem extends React.Component {
     //     <Divider />
     //   </div>
         <div className={classes.root}>
+            <Router>
             <div className="App">
-                <Router>
-                    <div>
-                        <Paper square>
-                            <Tabs
-                                value={this.state.value}
-                                indicatorColor="primary"
-                                textColor="inherit"
-                                onChange={this.handleChange}
-                            >
-                                <Tab label="Входящие" component = {Link} to="/incomings"/>
-                                <Tab label="Исходящие" component = {Link} to="/sentMessages"/>
-                                <Tab label="Написать новое" component = {Link} to="/newMessage"/>
-                            </Tabs>
-                        </Paper>
-                        <Route exact path='/' render={(props) => (
-                            <HomeScreen {...props} onError={this.onError} />
-                        )}/>
-                        <Route path='/incomings' render={(props) => (
-                            <Incomings {...props} onError={this.onError} />
-                        )}/>
-                        <Route path='/sentMessages' render={(props) => (
-                            <SentMessages {...props} onError={this.onError} />
-                        )}/>
-                        <Route path='/newMessage' render={(props) => (
-                            <NewMessage {...props} onError={this.onError} />
-                        )}/>
-                    </div>
-                </Router>
+                {sessionStorage.getItem("ttc.name") ? 
+                        <div>
+                            <Paper square>
+                                <Tabs
+                                    value={this.state.value}
+                                    indicatorColor="primary"
+                                    textColor="inherit"
+                                    onChange={this.handleChange}
+                                >
+                                    <Tab label="Входящие" component = {Link} to="/incomings"/>
+                                    <Tab label="Исходящие" component = {Link} to="/sentMessages"/>
+                                    <Tab label="Написать новое" component = {Link} to="/newMessage"/>
+                                </Tabs>
+                            </Paper>
+                            <Route path='/incomings' render={(props) => (
+                                <Incomings {...props} onError={this.onError} />
+                            )}/>
+                            <Route path='/sentMessages' render={(props) => (
+                                <SentMessages {...props} onError={this.onError} />
+                            )}/>
+                            <Route path='/newMessage' render={(props) => (
+                                <NewMessage {...props} onError={this.onError} />
+                            )}/>
+                            <Route exact path='/' render={(props) => (
+                                <HomeScreen {...props} onError={this.onError} />
+                            )}/>
+                        </div>
+                    :<Route exact path='/' render={(props) => (
+                        <HomeScreen {...props} onError={this.onError} />
+                    )}/>}
             </div>
+            </Router>
         </div>
     );
   }
 }
 
-SelectedListItem.propTypes = {
+MenuBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SelectedListItem);
+export default withStyles(styles)(MenuBar);

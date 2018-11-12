@@ -9,12 +9,18 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import HomeScreen from './screens/homescreen';
+import AuthDialog from './commonComponents/authDialog';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuBar from './menubar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Incomings from './screens/incoming/incomings';
+import Incoming from './screens/incoming/incoming';
+import SentMessages from './screens/sentMessage/sentMessages';
+import SentMessage from './screens/sentMessage/sentMessage';
+import NewMessage from './screens/newMessage/newMessage';
 
 const styles = theme => ({
   root: {
@@ -41,27 +47,27 @@ class App extends Component {
       open: true,
       anchor: 'bottom',
       anchorEl: null
-  }
+    }
 
+    this.handleChange = this.handleChange.bind(this);
   };
   state = {
     value: 4,
   };
 
   handleChange = (event, value) => {
-    this.setState({ value });
+    this.setState({ value: event });
+    this.render();
+  };
+
+  handleAuth = (event, value) => {
+    this.setState({ isAuth: value });
   };
 
   render() {
     const contentStyle = { transition: 'margin-left 450ms cubic-bezier(0.23, 1, 0.32, 1)' };
-    const { anchor, open } = this.state;
+    const { anchor, open, value } = this.state;
     const { classes } = this.props;
-
-    this.state.name = true;
-
-    const drawer = !this.state.name ? <div></div> : (
-        <MenuBar />
-    );
 
     return (
       <div className={classes.root}>
@@ -69,12 +75,12 @@ class App extends Component {
           <AppBar position="static">
             <Toolbar>
               <Typography variant="h6" color="inherit" className={classes.grow}>
-                SlowPochta
+                SERVICE
               </Typography>
-              <Button color="inherit">Вход</Button>
+              <AuthDialog handleAuth={this.handleAuth}/>
             </Toolbar>
           </AppBar>
-          {drawer}
+          <MenuBar/>
         </div>
       </div>
     );

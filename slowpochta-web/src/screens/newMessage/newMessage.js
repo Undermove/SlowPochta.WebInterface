@@ -17,7 +17,7 @@ class NewMessage extends Component{
 
         if(this.props.match.params.id !== "new"){
             this.state = {newMessage: {}, loading: false};         
-            Rest.GetMethod(this.onSuccessGet, "newMessage?id="+this.props.match.params.id, true);
+            //Rest.GetMethod(this.onSuccessGet, "newMessage?id="+this.props.match.params.id, true);
         }
         else{
             this.state = {newMessage: {}, loading: false};
@@ -37,11 +37,11 @@ class NewMessage extends Component{
         
         this.setState({loading: false});
         if(this.props.match.params.id === "new"){
-            Rest.PostMethod(this.onSuccessSave, "newMessage/", data, false, this.onError);
+            //Rest.PostMethod(this.onSuccessSave, "newMessage/", data, false, this.onError);
         }
         else{
             data["id"] = this.state.newMessage.id;
-            Rest.PutMethod(this.onSuccessSave, "newMessage/", data, false, this.onError);
+            //Rest.PutMethod(this.onSuccessSave, "newMessage/", data, false, this.onError);
         }
     }
 
