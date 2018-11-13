@@ -2,23 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
 import HomeScreen from './screens/homescreen';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import AllInbox from '@material-ui/icons/AllInbox';
-import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Incomings from './screens/incoming/incomings';
-import Incoming from './screens/incoming/incoming';
 import SentMessages from './screens/sentMessage/sentMessages';
-import SentMessage from './screens/sentMessage/sentMessage';
 import NewMessage from './screens/newMessage/newMessage';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 
@@ -52,34 +41,10 @@ class MenuBar extends React.Component {
 
   render() {
     // let permissions = JSON.parse(sessionStorage.getItem('ttc.account')).permissions;
-    // console.log(permissions);
-
-    // var dictionaries = [];
 
     const { classes } = this.props;
 
-    // permissions.forEach(p => {
-    //   if(p.permissionId == 1 && p.canSelect){
-    //     dictionaries.push(<ListItem key='1'
-    //       button
-    //       selected={this.state.selectedIndex === 1}
-    //       component = {Link} to="/vendors"
-    //       onClick={event => this.handleListItemClick(event, 1)}
-    //     >
-    //       <ListItemText primary="Вендоры" />
-    //     </ListItem>)
-    //   }
-    // });
-    const { value } = this.state;
-
     return (
-    //   <div className={classes.root}>
-    //     {/* <List component="nav">
-    //         {dictionaries}
-    //     </List> */}
-    //     <div>TEST</div>
-    //     <Divider />
-    //   </div>
         <div className={classes.root}>
             <Router>
             <div className="App">
@@ -110,7 +75,7 @@ class MenuBar extends React.Component {
                                 <HomeScreen {...props} onError={this.onError} />
                             )}/>
                         </div>
-                    :<Route exact path='/' render={(props) => (
+                    :<Route path='/' render={(props) => (
                         <HomeScreen {...props} onError={this.onError} />
                     )}/>}
             </div>
