@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import * as Rest from '../../restclient';
 import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -33,16 +34,11 @@ class NewMessage extends Component{
           if (element.tagName === 'BUTTON') { continue; }
           data[element.name] = element.value;
         }
-        data["vendorId"] = this.state.vendorId;
+
+        data["fromUser"] = sessionStorage.getItem('ttc.name');
         
         this.setState({loading: false});
-        if(this.props.match.params.id === "new"){
-            //Rest.PostMethod(this.onSuccessSave, "newMessage/", data, false, this.onError);
-        }
-        else{
-            data["id"] = this.state.newMessage.id;
-            //Rest.PutMethod(this.onSuccessSave, "newMessage/", data, false, this.onError);
-        }
+        Rest.PostMethod(this.onSuccessSave, "api/message/", data, false, this.onError);
     }
 
     onError(data){
@@ -67,14 +63,53 @@ class NewMessage extends Component{
         const view = this.state.loading ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) : 
         (<div className="formWithMargin">
             <form onSubmit={this.onSubmit}>
-            <h2>Тип устройства</h2>
-                <TextField name="modelName" autoComplete="off" defaultValue={this.state.newMessage.modelName} label="Имя модели" />
-                <br />
-                <TextField name="version" autoComplete="off" defaultValue={this.state.newMessage.version} label="Версия" />
-                <br />
-                <Button type='submit'>Сохранить</Button>
+                <h2>Новое сообщение</h2>
+                <TextField
+                    name = "toUser"
+                    id="outlined-full-width"
+                    label="Кому"
+                    style={{
+                        minWidth: 300,
+                        width: "50%"
+                    }}
+                    placeholder="Местодержатель"
+                    helperText="Введите никнейм того кому, хотите отправить сообщение!"
+                    margin="normal"
+                    variant="outlined"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <br/>
+                <TextField
+                    name = "messageText"
+                    id="outlined-full-width"
+                    label="Текст письма"
+                    placeholder="Местодержатель"
+                    style={{
+                        minWidth: 300,
+                        width: "50%"
+                    }}
+                    multiline
+                    rows="24"
+                    margin="normal"
+                    variant="outlined"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                />
+                <br/>
+                <Button 
+                    type='submit' 
+                    variant="contained" 
+                    color="primary"
+                    style = {{
+                        marginTop:20,
+                        marginBottom:20
+                    }}>
+                    Положить в почтовый ящик
+                </Button>
             </form>
-
         </div>)
         return(
             <div id="content">
