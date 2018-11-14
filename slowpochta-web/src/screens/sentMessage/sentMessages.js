@@ -24,7 +24,7 @@ class SentMessages extends Component{
     }
 
     componentDidMount(){
-        //Rest.GetMethod(this.onSuccess, "sentMessage", true);
+        Rest.GetMethod(this.onSuccess, "api/message/getsendedmessages", true);
     }
 
     onSuccess(data){
@@ -38,20 +38,19 @@ class SentMessages extends Component{
         {<Table>
             <TableHead>
                   <TableRow>
-                    <TableCell>Производитель</TableCell>
-                    <TableCell>Версия прошивки</TableCell>
+                    <TableCell>Текст</TableCell>
+                    <TableCell>Дата отправления</TableCell>
+                    <TableCell>Статус доставки</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {this.state.protocolCatalogs.map(row => {
                     return (
-                      <TableRow key={row.id}>
-                        <TableCell component="th" scope="row">
-                          {row.modelName}
-                        </TableCell>
-                        <TableCell>{row.vendorName}</TableCell>    
-                        <TableCell>{row.version}</TableCell>                      
+                      <TableRow style = {{maxHeight:5}} key={row.id}>
+                        <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {row.messageText}</TableCell>    
+                        <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
+                        <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
                         <TableCell>
                             <IconButton component = {NavLink} to={"/sentMessage/"+row.id}>
                                 <Create />

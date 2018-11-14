@@ -24,7 +24,7 @@ class Incomings extends Component{
     }
 
     componentDidMount(){
-        //Rest.GetMethod(this.onSuccess, "incoming", true);
+        Rest.GetMethod(this.onSuccess, "api/message/getdeliveredmessages", true);
     }
 
     onSuccess(data){
@@ -39,23 +39,21 @@ class Incomings extends Component{
         {<Table>
             <TableHead>
                   <TableRow>
-                    <TableCell>Наименование</TableCell>
-                    <TableCell>Производитель</TableCell>
-                    <TableCell>Версия прошивки</TableCell>
+                    <TableCell>Текст письма</TableCell>
+                    <TableCell>Время создания</TableCell>
+                    <TableCell>Статус</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {this.state.protocolCatalogs.map(row => {
                     return (
-                      <TableRow key={row.id}>
-                        <TableCell component="th" scope="row">
-                            {row.modelName}
-                        </TableCell>
-                        <TableCell>{row.vendorName}</TableCell>    
-                        <TableCell>{row.version}</TableCell>                      
+                        <TableRow key={row.id}>
+                        <TableCell style = {{maxWidth:700, overflow: 'hidden'}}> {row.messageText}</TableCell>    
+                        <TableCell style = {{maxWidth:200}}>{row.creationDate}</TableCell>                      
+                        <TableCell style = {{maxWidth:200}}>{row.statusDescription}</TableCell>                      
                         <TableCell>
-                            <IconButton component = {NavLink} to={"/incoming/"+row.id}>
+                            <IconButton component = {NavLink} to={"/sentMessage/"+row.id}>
                                 <Create />
                             </IconButton>
                             <IconButton onClick={() => this.handleDelete(row.id)}>

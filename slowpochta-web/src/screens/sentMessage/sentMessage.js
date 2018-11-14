@@ -16,7 +16,7 @@ class SentMessage extends Component{
         this.onError = this.onError.bind(this);
 
         if(this.props.match.params.id !== "new"){
-            this.state = {sentMessage: {}, loading: true};         
+            this.state = {sentMessage: {}, loading: false};         
             Rest.GetMethod(this.onSuccessGet, "sentMessage?id="+this.props.match.params.id, true);
         }
         else{
@@ -37,11 +37,11 @@ class SentMessage extends Component{
         
         this.setState({loading: true});
         if(this.props.match.params.id === "new"){
-            Rest.PostMethod(this.onSuccessSave, "sentMessage/", data, false, this.onError);
+            Rest.PostMethod(this.onSuccessSave, "api/message/sentMessage/", data, false, this.onError);
         }
         else{
             data["id"] = this.state.sentMessage.id;
-            Rest.PutMethod(this.onSuccessSave, "sentMessage/", data, false, this.onError);
+            Rest.PutMethod(this.onSuccessSave, "api/message/sentMessage/", data, false, this.onError);
         }
     }
 

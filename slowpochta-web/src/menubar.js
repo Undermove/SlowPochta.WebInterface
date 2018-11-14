@@ -8,6 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Incomings from './screens/incoming/incomings';
 import SentMessages from './screens/sentMessage/sentMessages';
+import SentMessage from './screens/sentMessage/sentMessage';
 import NewMessage from './screens/newMessage/newMessage';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 
@@ -67,6 +68,9 @@ class MenuBar extends React.Component {
                             )}/>
                             <Route path='/sentMessages' render={(props) => (
                                 <SentMessages {...props} onError={this.onError} />
+                            )}/>
+                            <Route path='/sentMessage/:id' render={(props) => (
+                                <SentMessage {...props} onError={this.onError} />
                             )}/>
                             <Route path='/newMessage' render={(props) => (
                                 <NewMessage {...props} onError={this.onError} />
