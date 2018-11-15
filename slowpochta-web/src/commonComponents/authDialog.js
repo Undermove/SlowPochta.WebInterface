@@ -10,6 +10,11 @@ import * as Rest from '../restclient';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 export default class AuthDialog extends React.Component {
     constructor(props) {
@@ -20,9 +25,11 @@ export default class AuthDialog extends React.Component {
             name: sessionStorage.getItem('ttc.name'),
             loginLoading: false,
             isAuthComplete: false,
+            anchorEl: null,
             open: false,
             login: "",
-            password: ""
+            password: "",
+            value: 0
         }
 
         this.onLoginSubmit = this.onLoginSubmit.bind(this);
@@ -31,14 +38,11 @@ export default class AuthDialog extends React.Component {
         this.handleLoginChange = this.handleLoginChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.onRegister = this.onRegister.bind(this);
     };
 
     handleClickOpen = () => {
         this.setState({ open: true });
-    };
-
-    handleClose = () => {
-        this.setState({ open: false });
     };
 
     onLoginSubmit = () => {
@@ -47,6 +51,19 @@ export default class AuthDialog extends React.Component {
         data["password"] = this.state.password;
         this.setState({ loginLoading: true, anchorEl: null });
         Rest.PostMethod(this.onAuth, "token", data, true, this.onErrorAuth);
+    }
+
+    onRegistrationSubmit = () => {
+        var data = {};
+        data["login"] = this.state.login;
+        data["password"] = this.state.password;
+        this.setState({ loginLoading: true, anchorEl: null });
+        Rest.PutMethod(this.onRegister, "api/users", data, false, this.onErrorAuth);
+    }
+
+    onRegister(data) {
+        alert("Registration sucsess!");
+        this.handleClose();
     }
 
     onAuth(data) {
@@ -77,55 +94,122 @@ export default class AuthDialog extends React.Component {
         sessionStorage.clear();
         this.setState({ isAuthComplete: false });
         this.props.handleAuth(false);
+        this.setState({ anchorEl: null });
     }
 
+    handleClick = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleClose = () => {
+        this.setState({ open: false });
+        this.setState({ anchorEl: null });
+    };
+
+    handleChange = (event, value) => {
+        this.setState({ value });
+    };
+
     render() {
+        const { anchorEl } = this.state;
+
         return (
             <div>
                 {sessionStorage.getItem('ttc.name') ? (
                     <div>
                         <Router>
-                            <IconButton aria-haspopup="true" component = {Link} to="/" color="inherit" onClick={this.handleLogout}>
-                                <AccountCircle />
-                            </IconButton>
+                            <div>
+                                <IconButton aria-haspopup="true" component = {Link} to="/" color="inherit" onClick={this.handleClick}>
+                                    <AccountCircle />
+                                </IconButton>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={this.handleClose}
+                                    >
+                                    <MenuItem onClick={this.handleClose}>Профиль</MenuItem>
+                                    <MenuItem onClick={this.handleLogout}>Разлогиниться</MenuItem>
+                                </Menu>
+                            </div>   
                         </Router>
                     </div>
                 ) : <Button color="inherit" onClick={this.handleClickOpen}>ВХОД</Button>}
-                
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Авторизация</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="login"
-                            label="Логин"
-                            type="email"
-                            fullWidth
-                            onChange={this.handleLoginChange}
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="password"
-                            label="Пароль"
-                            type="password"
-                            fullWidth
-                            onChange={this.handlePasswordChange}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.onLoginSubmit} color="primary">
-                            ВХОД
-                        </Button>
-                        <Button onClick={this.handleClose} color="secondary">
-                            ОТМЕНА
-                        </Button>
-                    </DialogActions>
+                    <Paper square>
+                        <Tabs
+                            value={this.state.value}
+                            indicatorColor="primary"
+                            textColor="inherit"
+                            onChange={this.handleChange}
+                        >
+                            <Tab style = {{minWidth:'50%'}} label="Авторизация"  />
+                            <Tab style = {{minWidth:'50%'}} label="Регистрация" />
+                        </Tabs>
+                    </Paper>
+
+                    {this.state.value === 0 ? 
+                    <div>
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="login"
+                                label="Логин"
+                                type="email"
+                                fullWidth
+                                onChange={this.handleLoginChange}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                label="Пароль"
+                                type="password"
+                                fullWidth
+                                onChange={this.handlePasswordChange}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.onLoginSubmit} color="primary">
+                                ВХОД
+                            </Button>
+                            <Button onClick={this.handleClose} color="secondary">
+                                ОТМЕНА
+                            </Button>
+                        </DialogActions>
+                    </div> :
+                    <div>
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="login"
+                                label="Придумайте Логин"
+                                type="email"
+                                fullWidth
+                                onChange={this.handleLoginChange}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                label="Придумайте Пароль"
+                                type="password"
+                                fullWidth
+                                onChange={this.handlePasswordChange}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.onRegistrationSubmit} color="primary">
+                                ЗАРЕГИСТРИРОВАТЬСЯ
+                            </Button>
+                        </DialogActions>
+                    </div>}
                 </Dialog>
             </div>
         );

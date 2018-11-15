@@ -31,10 +31,18 @@ class SentMessages extends Component{
         this.setState({protocolCatalogs: data, loading: false});
     }
 
+    sliceString(string){
+        if(string.length > 100){
+            return string.slice(0,100)+'...(читать далее)';
+        }
+        return string;
+    }
+
     render(){
         const view = false ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) :
         (<div>
 
+        <h2>Исходящие сообщения</h2>
         {<Table>
             <TableHead>
                   <TableRow>
@@ -48,7 +56,7 @@ class SentMessages extends Component{
                   {this.state.protocolCatalogs.map(row => {
                     return (
                       <TableRow style = {{maxHeight:5}} key={row.id}>
-                        <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {row.messageText}</TableCell>    
+                        <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
                         <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
                         <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
                         <TableCell>

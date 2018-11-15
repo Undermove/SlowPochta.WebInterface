@@ -31,11 +31,18 @@ class Incomings extends Component{
         this.setState({protocolCatalogs: data, loading: false});
     }
 
+    sliceString(string){
+        if(string.length > 100){
+            return string.slice(0,100)+'...(читать далее)';
+        }
+        return string;
+    }
+
     render(){
         const view = false ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) :
         (<div>
           
-
+        <h2>Входящие сообщения</h2>
         {<Table>
             <TableHead>
                   <TableRow>
@@ -49,7 +56,9 @@ class Incomings extends Component{
                   {this.state.protocolCatalogs.map(row => {
                     return (
                         <TableRow key={row.id}>
-                        <TableCell style = {{maxWidth:700, overflow: 'hidden'}}> {row.messageText}</TableCell>    
+                        <TableCell style = {{margin: '1em', maxWidth:700, width: '150px', overflow: 'hidden', whiteSpace: 'normal',wordWrap: 'break-word'}}> {
+                            this.sliceString(row.messageText)
+                            }</TableCell>    
                         <TableCell style = {{maxWidth:200}}>{row.creationDate}</TableCell>                      
                         <TableCell style = {{maxWidth:200}}>{row.statusDescription}</TableCell>                      
                         <TableCell>
