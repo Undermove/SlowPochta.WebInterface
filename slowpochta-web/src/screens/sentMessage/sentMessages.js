@@ -43,7 +43,7 @@ class SentMessages extends Component{
         (<div>
 
         <h2>Исходящие сообщения</h2>
-        {<Table>
+        <Table>
             <TableHead>
                   <TableRow>
                     <TableCell>Текст</TableCell>
@@ -71,7 +71,7 @@ class SentMessages extends Component{
                     );
                   })}
                 </TableBody>
-                </Table>}
+                </Table>
         </div>)
         return(
             <div>

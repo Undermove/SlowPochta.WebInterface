@@ -43,7 +43,7 @@ class Incomings extends Component{
         (<div>
           
         <h2>Входящие сообщения</h2>
-        {<Table>
+        <Table>
             <TableHead>
                   <TableRow>
                     <TableCell>Текст письма</TableCell>
@@ -73,7 +73,7 @@ class Incomings extends Component{
                     );
                   })}
                 </TableBody>
-                </Table>}
+                </Table>
         </div>)
         return(
             <div>

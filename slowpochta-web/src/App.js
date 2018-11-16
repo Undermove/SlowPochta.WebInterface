@@ -13,6 +13,7 @@ import AuthDialog from './commonComponents/authDialog';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Footer from './commonComponents/footer';
 import MenuBar from './menubar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -81,6 +82,7 @@ class App extends Component {
             </Toolbar>
           </AppBar>
           <MenuBar/>
+          <Footer></Footer>
         </div>
       </div>
     );
