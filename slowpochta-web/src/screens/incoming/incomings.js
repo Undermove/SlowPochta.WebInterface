@@ -6,6 +6,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,7 +21,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 class Incomings extends Component{
     constructor(props){
         super(props);
-        this.state = {incomings: [], loading: true, protocolCatalogs:[]};
+        this.state = {incomings: [], page:0, rowsPerPage: 10,  loading: true, protocolCatalogs:[]};
         this.onSuccess = this.onSuccess.bind(this);
     }
 
@@ -38,7 +40,19 @@ class Incomings extends Component{
         return string;
     }
 
+    handleChangePage = (event, page) => {
+        this.setState({ page });
+    };
+    
+    handleChangeRowsPerPage = event => {
+        this.setState({ rowsPerPage: event.target.value });
+    };
+
     render(){
+        const rows= this.state.protocolCatalogs;
+        const {page,rowsPerPage } = this.state;
+        const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
         const view = false ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) :
         (<div>
           
@@ -53,26 +67,42 @@ class Incomings extends Component{
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.state.protocolCatalogs.map(row => {
-                    return (
-                        <TableRow key={row.id}>
-                        <TableCell style = {{margin: '1em', maxWidth:700, width: '150px', overflow: 'hidden', whiteSpace: 'normal',wordWrap: 'break-word'}}> {
-                            this.sliceString(row.messageText)
-                            }</TableCell>    
-                        <TableCell style = {{maxWidth:200}}>{row.creationDate}</TableCell>                      
-                        <TableCell style = {{maxWidth:200}}>{row.statusDescription}</TableCell>                      
-                        <TableCell>
-                            <IconButton component = {NavLink} to={"/sentMessage/"+row.id}>
-                                <Create />
-                            </IconButton>
-                            <IconButton onClick={() => this.handleDelete(row.id)}>
-                                <Delete />
-                            </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                    {this.state.protocolCatalogs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                        return (
+                        <TableRow style = {{maxHeight:5}} key={row.id}>
+                            <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
+                            <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
+                            <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
+                            <TableCell>
+                                <IconButton component = {NavLink} to={"/sentMessage/"+row.id}>
+                                    <Create />
+                                </IconButton>
+                                <IconButton onClick={() => this.handleDelete(row.id)}>
+                                    <Delete />
+                                </IconButton>
+                            </TableCell>
+                        </TableRow>
+                        );
+                    })}
+                    {emptyRows > 0 && (
+                        <TableRow style={{ height: 48 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                        </TableRow>
+                    )}
                 </TableBody>
+                <TableFooter style={{padding:200}}>
+                    <TableRow>
+                        <TablePagination
+                        rowsPerPageOptions={[5, 10, 20, 100]}
+                        colSpan={3}
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                        />
+                    </TableRow>
+                </TableFooter>
                 </Table>
         </div>)
         return(

@@ -82,7 +82,6 @@ class App extends Component {
             </Toolbar>
           </AppBar>
           <MenuBar/>
-          <Footer></Footer>
         </div>
       </div>
     );

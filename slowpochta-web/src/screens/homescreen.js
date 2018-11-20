@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
+import Footer from '../commonComponents/footer';
+import { withStyles } from '@material-ui/core/styles';
 import CustomPaginationActionsTable from '../commonComponents/customPaginationActionsTable';
+
+const styles = theme => ({
+    root: {
+      flexGrow: 100,
+    },
+    grow: {
+      flexGrow: 100,
+    },
+    menuButton: {
+      marginLeft: -12,
+      marginRight: 20,
+    },
+  });
 
 let counter = 0;
 function createData(name, calories, fat) {
@@ -29,14 +44,20 @@ class HomeScreen extends Component{
     
     
     render(){
+        const { classes } = this.props;
         return(
             <div>
                 <Typography>{'Домашний экран'}</Typography>
                 <CustomPaginationActionsTable rows = {this.state.rows}>
                 </CustomPaginationActionsTable>
+                <Footer>
+                    <Typography variant="h7" color="textSecondary" className={classes.grow}>
+                        Back-end by Taiiyo / Front-end by Undermove
+                    </Typography>
+                </Footer>
             </div>
         )
     }
 }
 
-export default HomeScreen;
+export default withStyles(styles, { withTheme: true })(HomeScreen);
