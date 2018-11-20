@@ -52,7 +52,7 @@ class HomeScreen extends Component{
                 </CustomPaginationActionsTable>
                 <Footer>
                     <Typography variant="h7" color="textSecondary" className={classes.grow}>
-                        Back-end by Taiiyo / Front-end by Undermove
+                        Back-end by <a href="https://github.com/Taiiayo">Taiiayo</a> / Front-end by <a href="https://github.com/Undermove">Undermove</a> 
                     </Typography>
                 </Footer>
             </div>

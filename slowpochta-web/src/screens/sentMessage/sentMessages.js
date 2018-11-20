@@ -72,8 +72,8 @@ class SentMessages extends Component{
                         <TableRow style = {{maxHeight:5}} key={row.id}>
                             <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
                             <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
-                            <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
-                            <TableCell>
+                            <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
+                            <TableCell  style = {{ textAlign:'right'}}>
                                 <IconButton component = {NavLink} to={"/sentMessage/"+row.id}>
                                     <Create />
                                 </IconButton>
@@ -94,7 +94,7 @@ class SentMessages extends Component{
                     <TableRow>
                         <TablePagination
                         rowsPerPageOptions={[5, 10, 20, 100]}
-                        colSpan={3}
+                        colSpan={4}
                         count={rows.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
