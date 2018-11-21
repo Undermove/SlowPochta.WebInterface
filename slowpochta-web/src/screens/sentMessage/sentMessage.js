@@ -5,9 +5,12 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import MessageStatusCard from '../../commonComponents/messageStatusCard'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 
 const styles = theme => ({
     root: {
@@ -16,6 +19,9 @@ const styles = theme => ({
       paddingBottom: theme.spacing.unit * 2,
       width: '580px',
       'text-align':'Center',
+    },
+    gridList: {
+        width: '610px',
     },
   });
 
@@ -80,18 +86,18 @@ class SentMessage extends Component{
     render(){    
         const { classes } = this.props;    
         const view = this.state.loading ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) : 
-        (<div >
+        (<div style ={{ display: 'inline-block'}}>
             <h2>Исходящее сообщение</h2>
-            <div style ={{ display: 'inline-block'}}>
-            <Paper id="full-width" style = {{textAlign:'left'}} className={classes.root} elevation={1}>
+            <div >
+            <Paper style = {{textAlign:'left'}} className={classes.root} elevation={1}>
             <i style = {{color: 'gray'}}>От:</i> Вас
             </Paper>
             <br/>
-            <Paper id="full-width" style = {{textAlign:'left'}} className={classes.root} elevation={1}>
+            <Paper style = {{textAlign:'left'}} className={classes.root} elevation={1}>
             <i style = {{color: 'gray'}}>Кому:</i> Test
             </Paper>
             <br/>
-            <Paper id="full-width" className={classes.root} elevation={1}>
+            <Paper className={classes.root} elevation={1}>
                 <Typography variant="h5" component="h3">
                     This is a sheet of paper.
                 </Typography>
@@ -132,6 +138,13 @@ class SentMessage extends Component{
                 </Typography>
             </Paper>
             </div>
+            <br/>
+            <GridList cellHeight={"auto"} className={classes.gridList} cols={2}>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+            </GridList>
         </div>)
         return(
             <div id="content">

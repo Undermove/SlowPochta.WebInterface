@@ -47,7 +47,9 @@ class HomeScreen extends Component{
         const { classes } = this.props;
         return(
             <div>
-                <Typography>{'Домашний экран'}</Typography>
+                <Typography>{'В век высоких технолигий мы работаем над тем, чтобы все было так же хреново, как раньше.'}</Typography>
+                <Typography>{'Пока все всё стараются ускорить, мы качественно замедляем.'}</Typography>
+                <Typography>{'Мы не пытаемся быть хорошим сервисом, не пытаемся быть смешным сервисом, мы вообще больше НЕ, чем что либо другое'}</Typography>
                 <CustomPaginationActionsTable rows = {this.state.rows}>
                 </CustomPaginationActionsTable>
                 <Footer>

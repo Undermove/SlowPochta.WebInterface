@@ -11,10 +11,12 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
   card: {
-    maxWidth: 345,
+    width: 270,
+    margin: 10,
+    marginLeft: 25,
   },
   media: {
-    height: 140,
+    height: 100,
   },
 };
 
@@ -25,7 +27,7 @@ function MessageStatusCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
+          image="/static/images/cards/contemplative-reptile1.jpg"
           title="Contemplative Reptile"
         />
         <CardContent>
