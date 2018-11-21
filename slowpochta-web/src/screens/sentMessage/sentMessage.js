@@ -144,6 +144,24 @@ class SentMessage extends Component{
                     <MessageStatusCard></MessageStatusCard>
                     <MessageStatusCard></MessageStatusCard>
                     <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
+                    <MessageStatusCard></MessageStatusCard>
             </GridList>
         </div>)
         return(
