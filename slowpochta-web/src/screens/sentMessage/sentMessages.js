@@ -8,6 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Create from '@material-ui/icons/Create';
 import Delete from '@material-ui/icons/Delete';
@@ -74,9 +76,9 @@ class SentMessages extends Component{
                             <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
                             <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
                             <TableCell  style = {{ textAlign:'right'}}>
-                                <IconButton component = {NavLink} to={"/sentMessage/"+row.id}>
-                                    <Create />
-                                </IconButton>
+                                <Button component = {NavLink} to={"/sentMessage/"+row.id}>
+                                    <Icon>edit_icon</Icon>
+                                </Button>
                                 <IconButton onClick={() => this.handleDelete(row.id)}>
                                     <Delete />
                                 </IconButton>

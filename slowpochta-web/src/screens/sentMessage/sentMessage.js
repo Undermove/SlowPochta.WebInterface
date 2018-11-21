@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import * as Rest from '../../restclient';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+const styles = theme => ({
+    root: {
+      ...theme.mixins.gutters(),
+      paddingTop: theme.spacing.unit * 2,
+      paddingBottom: theme.spacing.unit * 2,
+      width: '580px',
+      'text-align':'Center',
+    },
+  });
 
 class SentMessage extends Component{
     constructor(props){
@@ -17,7 +31,7 @@ class SentMessage extends Component{
 
         if(this.props.match.params.id !== "new"){
             this.state = {sentMessage: {}, loading: false};         
-            Rest.GetMethod(this.onSuccessGet, "sentMessage?id="+this.props.match.params.id, true);
+            //Rest.GetMethod(this.onSuccessGet, "sentMessage?id="+this.props.match.params.id, true);
         }
         else{
             this.state = {sentMessage: {}, loading: false};
@@ -37,11 +51,11 @@ class SentMessage extends Component{
         
         this.setState({loading: true});
         if(this.props.match.params.id === "new"){
-            Rest.PostMethod(this.onSuccessSave, "api/message/sentMessage/", data, false, this.onError);
+            //Rest.PostMethod(this.onSuccessSave, "api/message/sentMessage/", data, false, this.onError);
         }
         else{
             data["id"] = this.state.sentMessage.id;
-            Rest.PutMethod(this.onSuccessSave, "api/message/sentMessage/", data, false, this.onError);
+            //Rest.PutMethod(this.onSuccessSave, "api/message/sentMessage/", data, false, this.onError);
         }
     }
 
@@ -63,18 +77,61 @@ class SentMessage extends Component{
         this.setState({vendorId: id})
     }
 
-    render(){        
+    render(){    
+        const { classes } = this.props;    
         const view = this.state.loading ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) : 
-        (<div className="formWithMargin">
-            <form onSubmit={this.onSubmit}>
-            <h2>Тип устройства</h2>
-                <TextField name="modelName" autoComplete="off" defaultValue={this.state.sentMessage.modelName} label="Имя модели" />
-                <br />
-                <TextField name="version" autoComplete="off" defaultValue={this.state.sentMessage.version} label="Версия" />
-                <br />
-                <Button type='submit'>Сохранить</Button>
-            </form>
-
+        (<div >
+            <h2>Исходящее сообщение</h2>
+            <div style ={{ display: 'inline-block'}}>
+            <Paper id="full-width" style = {{textAlign:'left'}} className={classes.root} elevation={1}>
+            <i style = {{color: 'gray'}}>От:</i> Вас
+            </Paper>
+            <br/>
+            <Paper id="full-width" style = {{textAlign:'left'}} className={classes.root} elevation={1}>
+            <i style = {{color: 'gray'}}>Кому:</i> Test
+            </Paper>
+            <br/>
+            <Paper id="full-width" className={classes.root} elevation={1}>
+                <Typography variant="h5" component="h3">
+                    This is a sheet of paper.
+                </Typography>
+                <Typography component="p">
+                <br/>
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                    Paper can be used to build surface or other elements for your application.
+                </Typography>
+            </Paper>
+            </div>
         </div>)
         return(
             <div id="content">
@@ -84,4 +141,4 @@ class SentMessage extends Component{
     }
 }
 
-export default withRouter(SentMessage);
+export default withStyles(styles, { withTheme: true })(withRouter(SentMessage));
