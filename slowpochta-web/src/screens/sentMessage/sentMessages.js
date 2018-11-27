@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import MailOutline from '@material-ui/icons/MailOutline';
 import TableHead from '@material-ui/core/TableHead';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -77,11 +78,8 @@ class SentMessages extends Component{
                             <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
                             <TableCell  style = {{ textAlign:'right'}}>
                                 <Button component = {NavLink} to={"/sentMessage/"+row.id}>
-                                    <Icon>edit_icon</Icon>
+                                    <MailOutline />
                                 </Button>
-                                <IconButton onClick={() => this.handleDelete(row.id)}>
-                                    <Delete />
-                                </IconButton>
                             </TableCell>
                         </TableRow>
                         );

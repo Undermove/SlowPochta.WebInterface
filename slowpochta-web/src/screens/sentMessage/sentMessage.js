@@ -36,8 +36,8 @@ class SentMessage extends Component{
         this.onError = this.onError.bind(this);
 
         if(this.props.match.params.id !== "new"){
-            this.state = {sentMessage: {}, loading: false};         
-            //Rest.GetMethod(this.onSuccessGet, "sentMessage?id="+this.props.match.params.id, true);
+            this.state = {sentMessage: {}, loading: true};         
+            Rest.GetMethod(this.onSuccessGet, "api/message?id="+this.props.match.params.id, true);
         }
         else{
             this.state = {sentMessage: {}, loading: false};
@@ -75,7 +75,7 @@ class SentMessage extends Component{
     }
 
     onSuccessSave(data){
-        //this.setState({loading: false});
+        this.setState({loading: false});
         this.props.history.goBack();
     }
 
@@ -84,85 +84,43 @@ class SentMessage extends Component{
     }
 
     render(){    
-        const { classes } = this.props;    
+        const { classes } = this.props;  
+        const {sentMessage  } = this.state.sentMessage
         const view = this.state.loading ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) : 
         (<div style ={{ display: 'inline-block'}}>
             <h2>Исходящее сообщение</h2>
             <div >
             <Paper style = {{textAlign:'left'}} className={classes.root} elevation={1}>
-            <i style = {{color: 'gray'}}>От:</i> Вас
+            <i style = {{color: 'gray'}}>От:</i> {this.state.sentMessage.senderLogin}
             </Paper>
             <br/>
             <Paper style = {{textAlign:'left'}} className={classes.root} elevation={1}>
-            <i style = {{color: 'gray'}}>Кому:</i> Test
+            <i style = {{color: 'gray'}}>Кому:</i> {this.state.sentMessage.recieverLogin}
             </Paper>
             <br/>
             <Paper className={classes.root} elevation={1}>
                 <Typography variant="h5" component="h3">
-                    This is a sheet of paper.
+                    Текст письма
                 </Typography>
                 <Typography component="p">
                 <br/>
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
-                    Paper can be used to build surface or other elements for your application.
+                {this.state.sentMessage.messageText}
                 </Typography>
             </Paper>
             </div>
             <br/>
-            <GridList cellHeight={"auto"} className={classes.gridList} cols={2}>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-                    <MessageStatusCard></MessageStatusCard>
-            </GridList>
+           
+                <Typography variant="h5" component="h3">
+                <h3>Путь, пройденный письмом</h3>
+                </Typography>
+                <GridList cellHeight={"auto"} className={classes.gridList} cols={2}>
+                    {this.state.sentMessage.passedDeliveryStatuses.map(row => {
+                            return (
+                                <MessageStatusCard text={row.deliveryStatusDescription} id={row.id} header={row.deliveryStatusHeader}></MessageStatusCard>
+                            );
+                        })}
+                </GridList>
+          
         </div>)
         return(
             <div id="content">

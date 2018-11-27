@@ -27,27 +27,26 @@ function MessageStatusCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
+          image={"/static/images/cards/" + props.id + ".jpg"}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {props.header}
           </Typography>
           <Typography component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            {props.text}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      {/* <CardActions>
         <Button size="small" color="primary">
           Share
         </Button>
         <Button size="small" color="primary">
           Learn More
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }
