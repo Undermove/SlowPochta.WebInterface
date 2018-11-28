@@ -63,9 +63,11 @@ class SentMessages extends Component{
         <Table>
             <TableHead>
                   <TableRow>
+                    <TableCell>Получатель</TableCell>
                     <TableCell>Текст</TableCell>
                     <TableCell>Дата отправления</TableCell>
-                    <TableCell>Статус доставки</TableCell>
+                    <TableCell>Текущий статус доставки</TableCell>
+                    <TableCell>Последнее обновление</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -73,10 +75,12 @@ class SentMessages extends Component{
                     {this.state.protocolCatalogs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                         return (
                         <TableRow style = {{maxHeight:5}} key={row.id}>
+                            <TableCell style = {{ maxWidth:100, overflow: 'hidden'}}>{row.recieverLogin}</TableCell>    
                             <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
-                            <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
-                            <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
-                            <TableCell  style = {{ textAlign:'right'}}>
+                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
+                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.lastStatusDescription}</TableCell>                      
+                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.deliveryDate}</TableCell>                      
+                            <TableCell  style = {{ width:10, textAlign:'right'}}>
                                 <Button component = {NavLink} to={"/sentMessage/"+row.id}>
                                     <MailOutline />
                                 </Button>

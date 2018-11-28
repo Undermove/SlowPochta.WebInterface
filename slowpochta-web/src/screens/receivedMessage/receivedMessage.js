@@ -25,7 +25,7 @@ const styles = theme => ({
     },
   });
 
-class SentMessage extends Component{
+class ReceivedMessage extends Component{
     constructor(props){
         super(props);
 
@@ -135,4 +135,4 @@ class SentMessage extends Component{
     }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(SentMessage));
+export default withStyles(styles, { withTheme: true })(withRouter(ReceivedMessage));

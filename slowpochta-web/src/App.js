@@ -17,8 +17,6 @@ import Footer from './commonComponents/footer';
 import MenuBar from './menubar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Incomings from './screens/incoming/incomings';
-import Incoming from './screens/incoming/incoming';
 import SentMessages from './screens/sentMessage/sentMessages';
 import SentMessage from './screens/sentMessage/sentMessage';
 import NewMessage from './screens/newMessage/newMessage';

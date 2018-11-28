@@ -6,7 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import HomeScreen from './screens/homescreen';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Incomings from './screens/incoming/incomings';
+import ReceivedMessages from './screens/receivedMessage/receivedMessages';
+import ReceivedMessage from './screens/receivedMessage/receivedMessage';
 import SentMessages from './screens/sentMessage/sentMessages';
 import SentMessage from './screens/sentMessage/sentMessage';
 import NewMessage from './screens/newMessage/newMessage';
@@ -58,13 +59,16 @@ class MenuBar extends React.Component {
                                     textColor="inherit"
                                     onChange={this.handleChange}
                                 >
-                                    <Tab label="Входящие" component = {Link} to="/incomings"/>
+                                    <Tab label="Входящие" component = {Link} to="/receivedMessages"/>
                                     <Tab label="Исходящие" component = {Link} to="/sentMessages"/>
                                     <Tab label="Написать новое" component = {Link} to="/newMessage"/>
                                 </Tabs>
                             </Paper>
-                            <Route path='/incomings' render={(props) => (
-                                <Incomings {...props} onError={this.onError} />
+                            <Route path='/receivedMessages' render={(props) => (
+                                <ReceivedMessages {...props} onError={this.onError} />
+                            )}/>
+                            <Route path='/receivedMessage/:id' render={(props) => (
+                                <ReceivedMessage {...props} onError={this.onError} />
                             )}/>
                             <Route path='/sentMessages' render={(props) => (
                                 <SentMessages {...props} onError={this.onError} />

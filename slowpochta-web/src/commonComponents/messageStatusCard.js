@@ -37,6 +37,9 @@ function MessageStatusCard(props) {
           <Typography component="p">
             {props.text}
           </Typography>
+          <Typography gutterBottom variant="h6">
+            {props.dateTime}
+          </Typography>
         </CardContent>
       </CardActionArea>
       {/* <CardActions>

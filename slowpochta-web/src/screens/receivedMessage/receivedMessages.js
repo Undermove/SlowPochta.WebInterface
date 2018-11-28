@@ -5,7 +5,9 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
+import MailOutline from '@material-ui/icons/MailOutline';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
@@ -18,7 +20,7 @@ import * as Rest from '../../restclient';
 import { NavLink } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 
-class Incomings extends Component{
+class ReceivedMessage extends Component{
     constructor(props){
         super(props);
         this.state = {incomings: [], page:0, rowsPerPage: 10,  loading: true, protocolCatalogs:[]};
@@ -60,9 +62,9 @@ class Incomings extends Component{
         <Table>
             <TableHead>
                   <TableRow>
+                    <TableCell>Отправитель</TableCell>
                     <TableCell>Текст письма</TableCell>
-                    <TableCell>Время создания</TableCell>
-                    <TableCell>Статус</TableCell>
+                    <TableCell>Время доставки</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -70,16 +72,13 @@ class Incomings extends Component{
                     {this.state.protocolCatalogs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                         return (
                         <TableRow style = {{maxHeight:5}} key={row.id}>
+                            <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.senderLogin)}</TableCell>    
                             <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
-                            <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
-                            <TableCell style = {{maxWidth:200, overflow: 'hidden'}}>{row.statusDescription}</TableCell>                      
-                            <TableCell style = {{ textAlign:'right'}}>
-                                <IconButton component = {NavLink} to={"/sentMessage/"+row.id}>
-                                    <Create />
-                                </IconButton>
-                                <IconButton onClick={() => this.handleDelete(row.id)}>
-                                    <Delete />
-                                </IconButton>
+                            <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.deliveryDate}</TableCell>                    
+                            <TableCell  style = {{ textAlign:'right'}}>
+                                <Button component = {NavLink} to={"/receivedMessage/"+row.id}>
+                                    <MailOutline />
+                                </Button>
                             </TableCell>
                         </TableRow>
                         );
@@ -113,4 +112,4 @@ class Incomings extends Component{
     }
 }
 
-export default withRouter(Incomings);
+export default withRouter(ReceivedMessage);
