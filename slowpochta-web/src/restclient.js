@@ -1,4 +1,5 @@
-export const url = "https://localhost:5003/";
+// export const url = "https://localhost:5003/";
+export const url = "https://localhost:50501/";
 //export const url = "http://10.1.2.108:50501/api/";
 
 export function GetMethod(callbackOnSuccess, route, needAnswer, callbackOnError){

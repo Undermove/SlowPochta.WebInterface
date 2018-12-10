@@ -73,9 +73,11 @@ class App extends Component {
         <div className="App">
           <AppBar position="static">
             <Toolbar>
-              <Typography variant="h6" color="inherit" className={classes.grow}>
-                SERVICE
-              </Typography>
+              <Router>
+                <Typography variant="h6" color="inherit" component = {Link} to="/" className={classes.grow}>
+                  SERVICE
+                </Typography>
+              </Router>
               <AuthDialog handleAuth={this.handleAuth}/>
             </Toolbar>
           </AppBar>
