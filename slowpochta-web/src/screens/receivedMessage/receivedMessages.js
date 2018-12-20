@@ -74,7 +74,7 @@ class ReceivedMessage extends Component{
                         <TableRow style = {{maxHeight:5}} key={row.id}>
                             <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.senderLogin)}</TableCell>    
                             <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
-                            <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.deliveryDate}</TableCell>                    
+                            <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.lastUpdateTime}</TableCell>                    
                             <TableCell  style = {{ textAlign:'right'}}>
                                 <Button component = {NavLink} to={"/receivedMessage/"+row.id}>
                                     <MailOutline />

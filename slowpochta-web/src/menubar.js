@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import HomeScreen from './screens/homescreen';
+import HomeScreen from './screens/homescreen/homescreen';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ReceivedMessages from './screens/receivedMessage/receivedMessages';
@@ -83,7 +83,7 @@ class MenuBar extends React.Component {
                                 <HomeScreen {...props} onError={this.onError} />
                             )}/>
                         </div>
-                    :<Route path='/' render={(props) => (
+                    :<Route exact path='/' render={(props) => (
                         <HomeScreen {...props} onError={this.onError} />
                     )}/>}
             </div>

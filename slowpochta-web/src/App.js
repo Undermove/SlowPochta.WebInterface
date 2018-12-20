@@ -8,7 +8,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import HomeScreen from './screens/homescreen';
+import HomeScreen from './screens/homescreen/homescreen';
 import AuthDialog from './commonComponents/authDialog';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,6 +20,10 @@ import Tab from '@material-ui/core/Tab';
 import SentMessages from './screens/sentMessage/sentMessages';
 import SentMessage from './screens/sentMessage/sentMessage';
 import NewMessage from './screens/newMessage/newMessage';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MenuItem from '@material-ui/core/MenuItem';
+import Badge from '@material-ui/core/Badge';
 
 const styles = theme => ({
   root: {
@@ -78,6 +82,21 @@ class App extends Component {
                   SERVICE
                 </Typography>
               </Router>
+              {sessionStorage.getItem("ttc.name") ? 
+                <div>
+                  <IconButton color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                      <MailIcon />
+                    </Badge>
+                  </IconButton>
+                  <IconButton color="inherit">
+                    <Badge badgeContent={17} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                </div> : 
+                <div></div>
+              }
               <AuthDialog handleAuth={this.handleAuth}/>
             </Toolbar>
           </AppBar>

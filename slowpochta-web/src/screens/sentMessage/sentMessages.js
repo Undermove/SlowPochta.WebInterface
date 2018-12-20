@@ -79,7 +79,7 @@ class SentMessages extends Component{
                             <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
                             <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
                             <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.lastStatusDescription}</TableCell>                      
-                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.deliveryDate}</TableCell>                      
+                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.lastUpdateTime}</TableCell>                      
                             <TableCell  style = {{ width:10, textAlign:'right'}}>
                                 <Button component = {NavLink} to={"/sentMessage/"+row.id}>
                                     <MailOutline />

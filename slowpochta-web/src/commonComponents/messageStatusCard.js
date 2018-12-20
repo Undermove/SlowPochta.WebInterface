@@ -16,7 +16,7 @@ const styles = {
     marginLeft: 25,
   },
   media: {
-    height: 100,
+    height: 150,
   },
 };
 
