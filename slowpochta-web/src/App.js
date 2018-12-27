@@ -32,6 +32,12 @@ const styles = theme => ({
   grow: {
     flexGrow: 100,
   },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
@@ -63,6 +69,10 @@ class App extends Component {
     this.render();
   };
 
+  handleClick = () => {
+    window.location.reload();
+  };
+
   handleAuth = (event, value) => {
     this.setState({ isAuth: value });
   };
@@ -78,10 +88,11 @@ class App extends Component {
           <AppBar position="static">
             <Toolbar>
               <Router>
-                <Typography variant="h6" color="inherit" component = {Link} to="/" className={classes.grow}>
-                  SERVICE
+                <Typography variant="h6" color="inherit" onClick = {this.handleClick} component = {Link} to="/" className={classes.title}>
+                  SlowPochta
                 </Typography>
               </Router>
+              <div className={classes.grow} />
               {sessionStorage.getItem("ttc.name") ? 
                 <div>
                   <IconButton color="inherit">

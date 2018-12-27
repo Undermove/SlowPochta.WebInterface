@@ -28,6 +28,7 @@ class ReceivedMessage extends Component{
     }
 
     componentDidMount(){
+        this.page = 0;
         Rest.GetMethod(this.onSuccess, "api/message/getdeliveredmessages", true);
     }
 

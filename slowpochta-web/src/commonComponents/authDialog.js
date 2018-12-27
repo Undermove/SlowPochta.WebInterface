@@ -15,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { HubConnection } from '@aspnet/signalr';
 
 export default class AuthDialog extends React.Component {
     constructor(props) {
@@ -29,7 +30,9 @@ export default class AuthDialog extends React.Component {
             open: false,
             login: "",
             password: "",
-            value: 0
+            value: 0,
+            count: 0,
+            ws: null
         }
 
         this.onLoginSubmit = this.onLoginSubmit.bind(this);
@@ -75,6 +78,7 @@ export default class AuthDialog extends React.Component {
         this.setState({ open: false });
         this.setState({ isAuthComplete: true });
         this.props.handleAuth(true);
+        window.location.reload();
     }
 
     onErrorAuth(data) {
@@ -95,6 +99,7 @@ export default class AuthDialog extends React.Component {
         this.setState({ isAuthComplete: false });
         this.props.handleAuth(false);
         this.setState({ anchorEl: null });
+        window.location.reload();
     }
 
     handleClick = event => {
@@ -112,12 +117,11 @@ export default class AuthDialog extends React.Component {
 
     render() {
         const { anchorEl } = this.state;
-
         return (
-            <div>
-                {sessionStorage.getItem('ttc.name') ? (
-                    <div>
-                        <Router>
+            <Router>
+                <div>
+                    {sessionStorage.getItem('ttc.name') ? (
+                        <div>
                             <div>
                                 <IconButton aria-haspopup="true" component = {Link} to="/" color="inherit" onClick={this.handleClick}>
                                     <AccountCircle />
@@ -128,90 +132,90 @@ export default class AuthDialog extends React.Component {
                                     open={Boolean(anchorEl)}
                                     onClose={this.handleClose}
                                     >
-                                    <MenuItem onClick={this.handleClose}>Профиль</MenuItem>
+                                    <MenuItem onClick={this.handleClose} >Профиль</MenuItem>
                                     <MenuItem onClick={this.handleLogout}>Разлогиниться</MenuItem>
                                 </Menu>
                             </div>   
-                        </Router>
-                    </div>
-                ) : <Button color="inherit" onClick={this.handleClickOpen}>ВХОД</Button>}
-                <Dialog
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                    aria-labelledby="form-dialog-title"
-                >
-                    <Paper square>
-                        <Tabs
-                            value={this.state.value}
-                            indicatorColor="primary"
-                            textColor="inherit"
-                            onChange={this.handleChange}
-                        >
-                            <Tab style = {{minWidth:'50%'}} label="Авторизация"  />
-                            <Tab style = {{minWidth:'50%'}} label="Регистрация" />
-                        </Tabs>
-                    </Paper>
+                        </div>
+                    ) : <Button color="inherit" onClick={this.handleClickOpen} component = {Link} to="/receivedMessages">ВХОД</Button>}
+                    <Dialog
+                        open={this.state.open}
+                        onClose={this.handleClose}
+                        aria-labelledby="form-dialog-title"
+                    >
+                        <Paper square>
+                            <Tabs
+                                value={this.state.value}
+                                indicatorColor="primary"
+                                textColor="inherit"
+                                onChange={this.handleChange}
+                            >
+                                <Tab style = {{minWidth:'50%'}} label="Авторизация"  />
+                                <Tab style = {{minWidth:'50%'}} label="Регистрация" />
+                            </Tabs>
+                        </Paper>
 
-                    {this.state.value === 0 ? 
-                    <div>
-                        <DialogContent>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="login"
-                                label="Логин"
-                                type="email"
-                                fullWidth
-                                onChange={this.handleLoginChange}
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                label="Пароль"
-                                type="password"
-                                fullWidth
-                                onChange={this.handlePasswordChange}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={this.onLoginSubmit} color="primary">
-                                ВХОД
-                            </Button>
-                            <Button onClick={this.handleClose} color="secondary">
-                                ОТМЕНА
-                            </Button>
-                        </DialogActions>
-                    </div> :
-                    <div>
-                        <DialogContent>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="login"
-                                label="Придумайте Логин"
-                                type="email"
-                                fullWidth
-                                onChange={this.handleLoginChange}
-                            />
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                label="Придумайте Пароль"
-                                type="password"
-                                fullWidth
-                                onChange={this.handlePasswordChange}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={this.onRegistrationSubmit} color="primary">
-                                ЗАРЕГИСТРИРОВАТЬСЯ
-                            </Button>
-                        </DialogActions>
-                    </div>}
-                </Dialog>
-            </div>
+                        {this.state.value === 0 ? 
+                        <div>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="login"
+                                    label="Логин"
+                                    type="email"
+                                    fullWidth
+                                    onChange={this.handleLoginChange}
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    label="Пароль"
+                                    type="password"
+                                    fullWidth
+                                    onChange={this.handlePasswordChange}
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.onLoginSubmit} color="primary">
+                                    ВХОД
+                                </Button>
+                                <Button onClick={this.handleClose} color="secondary">
+                                    ОТМЕНА
+                                </Button>
+                            </DialogActions>
+                        </div> :
+                        <div>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="login"
+                                    label="Придумайте Логин"
+                                    type="email"
+                                    fullWidth
+                                    onChange={this.handleLoginChange}
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    label="Придумайте Пароль"
+                                    type="password"
+                                    fullWidth
+                                    onChange={this.handlePasswordChange}
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.onRegistrationSubmit} color="primary">
+                                    ЗАРЕГИСТРИРОВАТЬСЯ
+                                </Button>
+                            </DialogActions>
+                        </div>}
+                    </Dialog>
+                </div>
+            </Router>
         );
     }
 }
