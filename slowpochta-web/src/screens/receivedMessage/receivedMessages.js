@@ -77,7 +77,7 @@ class ReceivedMessage extends Component{
                         }
                         return (
                         <TableRow style = {{ maxHeight:5}} key={row.id}>
-                            <TableCell sortDirection={orderBy === row.id ? order : false} style = {{ fontWeight:isReadStyle,maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.senderLogin)}</TableCell>    
+                            <TableCell style = {{ fontWeight:isReadStyle,maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.senderLogin)}</TableCell>    
                             <TableCell style = {{ fontWeight:isReadStyle,maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
                             <TableCell style = {{ fontWeight:isReadStyle,maxWidth:200, overflow: 'hidden'}}> {row.lastUpdateTime}</TableCell>                    
                             <TableCell  style = {{ textAlign:'right'}}>
