@@ -72,6 +72,10 @@ class ReceivedMessage extends Component{
 
     onSuccessGet(data){
         this.setState({sentMessage: data, loading: false, vendorId: data.vendorId});
+        if(!data.isRead)
+        {
+            Rest.GetMethod(this.onSuccessGet, "api/message/markread?id="+this.props.match.params.id, true);            
+        }
     }
 
     onSuccessSave(data){

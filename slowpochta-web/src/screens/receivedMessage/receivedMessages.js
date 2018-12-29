@@ -71,11 +71,15 @@ class ReceivedMessage extends Component{
                 </TableHead>
                 <TableBody>
                     {this.state.protocolCatalogs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                        var isReadStyle = 'normal';
+                        if(!row.isRead){
+                            isReadStyle = 'bold';
+                        }
                         return (
-                        <TableRow style = {{maxHeight:5}} key={row.id}>
-                            <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.senderLogin)}</TableCell>    
-                            <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
-                            <TableCell style = {{ maxWidth:200, overflow: 'hidden'}}>{row.lastUpdateTime}</TableCell>                    
+                        <TableRow style = {{ maxHeight:5}} key={row.id}>
+                            <TableCell sortDirection={orderBy === row.id ? order : false} style = {{ fontWeight:isReadStyle,maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.senderLogin)}</TableCell>    
+                            <TableCell style = {{ fontWeight:isReadStyle,maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
+                            <TableCell style = {{ fontWeight:isReadStyle,maxWidth:200, overflow: 'hidden'}}> {row.lastUpdateTime}</TableCell>                    
                             <TableCell  style = {{ textAlign:'right'}}>
                                 <Button component = {NavLink} to={"/receivedMessage/"+row.id}>
                                     <MailOutline />

@@ -15,7 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { HubConnection } from '@aspnet/signalr';
+import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
 
 export default class AuthDialog extends React.Component {
     constructor(props) {
@@ -32,7 +32,7 @@ export default class AuthDialog extends React.Component {
             password: "",
             value: 0,
             count: 0,
-            ws: null
+            hubConnection: null
         }
 
         this.onLoginSubmit = this.onLoginSubmit.bind(this);
@@ -43,6 +43,11 @@ export default class AuthDialog extends React.Component {
         this.handleLogout = this.handleLogout.bind(this);
         this.onRegister = this.onRegister.bind(this);
     };
+
+    componentDidMount = () => {
+        this.ws = new WebSocket('ws://localhost:3000/ws');
+        this.ws.addEventListener('message', function(e) {console.log('Server: ' + e.data);})
+    }
 
     handleClickOpen = () => {
         this.setState({ open: true });
