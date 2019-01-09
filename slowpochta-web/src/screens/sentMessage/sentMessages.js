@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import MailOutline from '@material-ui/icons/MailOutline';
 import TableHead from '@material-ui/core/TableHead';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -21,6 +22,15 @@ import * as Rest from '../../restclient';
 import TablePaginationWrapped from '../../commonComponents/tablePagination';
 import { NavLink } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
+import EnhancedTable from '../../commonComponents/enhancedTable/enhancedTable'
+
+const columns = [
+    { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
+    { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
+    { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
+    { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
+    { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+  ];
 
 class SentMessages extends Component{
     constructor(props){
@@ -52,6 +62,29 @@ class SentMessages extends Component{
         this.setState({ rowsPerPage: event.target.value });
     };
 
+    renderBody = (isSelected, n) => {
+        return <TableRow
+            hover
+            onClick={event => this.handleClick(event, n.id)}
+            role="checkbox"
+            aria-checked={isSelected}
+            tabIndex={-1}
+            key={n.id}
+            selected={isSelected}
+            >
+            <TableCell padding="checkbox">
+                <Checkbox checked={isSelected} />
+            </TableCell>
+            <TableCell component="th" scope="row" padding="none">
+                {n.name}
+            </TableCell>
+            <TableCell align="right">{n.calories}</TableCell>
+            <TableCell align="right">{n.fat}</TableCell>
+            <TableCell align="right">{n.carbs}</TableCell>
+            <TableCell align="right">{n.protein}</TableCell>
+        </TableRow>
+    }
+
     render(){
         const rows= this.state.protocolCatalogs;
         const {page,rowsPerPage } = this.state;
@@ -60,8 +93,11 @@ class SentMessages extends Component{
         (<div>
 
         <h2>Исходящие сообщения</h2>
-        <Table>
-            <TableHead>
+        <EnhancedTable columns = {columns} renderBody = {this.renderBody}>
+
+        </EnhancedTable>
+            {/* <Table>
+                <TableHead>
                   <TableRow>
                     <TableCell>Получатель</TableCell>
                     <TableCell>Текст</TableCell>
@@ -107,7 +143,7 @@ class SentMessages extends Component{
                         />
                     </TableRow>
                 </TableFooter>
-            </Table>
+            </Table> */}
         </div>)
         return(
             <div>
