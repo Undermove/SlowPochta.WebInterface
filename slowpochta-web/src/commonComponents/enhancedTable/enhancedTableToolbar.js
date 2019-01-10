@@ -36,7 +36,7 @@ const toolbarStyles = theme => ({
   });
   
   let EnhancedTableToolbar = props => {
-    const { numSelected, classes } = props;
+    const { numSelected, classes, header } = props;
   
     return (
       <Toolbar
@@ -51,7 +51,7 @@ const toolbarStyles = theme => ({
             </Typography>
           ) : (
             <Typography variant="h6" id="tableTitle">
-              Nutrition
+              {header}
             </Typography>
           )}
         </div>

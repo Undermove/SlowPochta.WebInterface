@@ -75,7 +75,7 @@ class SentMessages extends Component{
             <TableCell align="right" className={classes.root}>{n.creationDate}</TableCell>
             <TableCell align="right" className={classes.root}>{n.lastStatusDescription}</TableCell>
             <TableCell align="right" className={classes.root}>{n.lastUpdateTime}</TableCell>
-            <TableCell  style = {{ width:10, textAlign:'right'}}>
+            <TableCell style = {{ width:10, textAlign:'right'}}>
                 <Button component = {NavLink} to={"/sentMessage/"+n.id}>
                     <MailOutline />
                 </Button>
@@ -87,11 +87,13 @@ class SentMessages extends Component{
         const rows = this.state.protocolCatalogs;
         const view = false ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) :
         (<div>
-
-        <h2>Исходящие сообщения</h2>
-        <EnhancedTable columns = {columns} renderBody = {this.renderBody} data = {rows}>
-
-        </EnhancedTable>
+            <EnhancedTable 
+                defaultOrder = {'creationDate'}
+                columns = {columns} 
+                renderBody = {this.renderBody} 
+                data = {rows} 
+                header={'Исходящие сообщения'}>
+            </EnhancedTable>
         </div>)
         return(
             <div>

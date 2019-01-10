@@ -13,10 +13,10 @@ import EnhancedTableToolbar from './enhancedTableToolbar';
 const styles = theme => ({
     root: {
       width: '100%',
-      marginTop: theme.spacing.unit * 3,
+      //marginTop: theme.spacing.unit * 3,
     },
     table: {
-      minWidth: 1020,
+      minWidth: 600,
     },
     tableWrapper: {
       overflowX: 'auto',
@@ -25,8 +25,8 @@ const styles = theme => ({
 
 class EnhancedTable extends React.Component {
     state = {
-      order: 'asc',
-      orderBy: 'calories',
+      order: 'desc',
+      orderBy: this.props.defaultOrder,
       selected: [],
       data: [],
       page: 0,
@@ -114,7 +114,7 @@ class EnhancedTable extends React.Component {
   
       return (
         <Paper className={classes.root}>
-          <EnhancedTableToolbar numSelected={selected.length} />
+          <EnhancedTableToolbar numSelected={selected.length} header = {this.props.header}/>
           <div className={classes.tableWrapper}>
             <Table className={classes.table} aria-labelledby="tableTitle">
               <EnhancedTableHead

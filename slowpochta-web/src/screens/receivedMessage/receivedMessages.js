@@ -12,10 +12,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
 
 const columns = [
-    { id: 'recieverLogin', numeric: false, disablePadding: true, label: 'Получатель' },
+    { id: 'snederLogin', numeric: false, disablePadding: true, label: 'Отправитель' },
     { id: 'messageText', numeric: false, disablePadding: false, label: 'Текст сообщения' },
-    { id: 'creationDate', numeric: false, disablePadding: false, label: 'Дата создания' },
-    { id: 'lastStatusDescription', numeric: true, disablePadding: false, label: 'Статус' },
     { id: 'lastUpdateTime', numeric: true, disablePadding: false, label: 'Последнее обновление' },
     { id: 'button'},
   ];
@@ -57,6 +55,10 @@ class ReceivedMessage extends Component{
 
     renderBody = (isSelected, n, handleClick) => {
         const { classes } = this.props;
+        var isReadStyle = 'normal';
+        if(!n.isRead){
+            isReadStyle = 'bold';
+        }
         return <TableRow
             hover
             onClick={event => handleClick(event, n.id)}
@@ -69,15 +71,11 @@ class ReceivedMessage extends Component{
             <TableCell padding="checkbox">
                 <Checkbox checked={isSelected} />
             </TableCell>
-            <TableCell component="th" scope="row" padding="none">
-                {n.recieverLogin}
-            </TableCell>
-            <TableCell align="right" className={classes.root}>{this.sliceString(n.messageText)}</TableCell>
-            <TableCell align="right" className={classes.root}>{n.creationDate}</TableCell>
-            <TableCell align="right" className={classes.root}>{n.lastStatusDescription}</TableCell>
-            <TableCell align="right" className={classes.root}>{n.lastUpdateTime}</TableCell>
-            <TableCell  style = {{ width:10, textAlign:'right'}}>
-                <Button component = {NavLink} to={"/sentMessage/"+n.id}>
+            <TableCell style = {{ fontWeight:isReadStyle }} component="th" scope="row" padding="none"> {n.senderLogin} </TableCell>
+            <TableCell style = {{ fontWeight:isReadStyle }} align="right" className={classes.root}>{this.sliceString(n.messageText)}</TableCell>
+            <TableCell style = {{ fontWeight:isReadStyle }} align="right" className={classes.root}>{n.lastUpdateTime}</TableCell>
+            <TableCell style = {{ width:10, textAlign:'right'}}>
+                <Button component = {NavLink} to={"/receivedMessage/"+n.id}>
                     <MailOutline />
                 </Button>
             </TableCell>
@@ -86,65 +84,14 @@ class ReceivedMessage extends Component{
 
     render(){
         const rows= this.state.protocolCatalogs;
-        const {page,rowsPerPage } = this.state;
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
         const view = false ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) :
-        // (<div>
-          
-        // <h2>Входящие сообщения</h2>
-        // <Table>
-        //     <TableHead>
-        //           <TableRow>
-        //             <TableCell>Отправитель</TableCell>
-        //             <TableCell>Текст письма</TableCell>
-        //             <TableCell>Время доставки</TableCell>
-        //             <TableCell></TableCell>
-        //           </TableRow>
-        //         </TableHead>
-        //         <TableBody>
-        //             {this.state.protocolCatalogs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-        //                 var isReadStyle = 'normal';
-        //                 if(!row.isRead){
-        //                     isReadStyle = 'bold';
-        //                 }
-        //                 return (
-        //                 <TableRow style = {{ maxHeight:5}} key={row.id}>
-        //                     <TableCell style = {{ fontWeight:isReadStyle,maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.senderLogin)}</TableCell>    
-        //                     <TableCell style = {{ fontWeight:isReadStyle,maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
-        //                     <TableCell style = {{ fontWeight:isReadStyle,maxWidth:200, overflow: 'hidden'}}> {row.lastUpdateTime}</TableCell>                    
-        //                     <TableCell  style = {{ textAlign:'right'}}>
-        //                         <Button component = {NavLink} to={"/receivedMessage/"+row.id}>
-        //                             <MailOutline />
-        //                         </Button>
-        //                     </TableCell>
-        //                 </TableRow>
-        //                 );
-        //             })}
-        //             {emptyRows > 0 && (
-        //                 <TableRow style={{ height: 48 * emptyRows }}>
-        //                 <TableCell colSpan={6} />
-        //                 </TableRow>
-        //             )}
-        //         </TableBody>
-        //         <TableFooter style={{padding:200}}>
-        //             <TableRow>
-        //                 <TablePagination
-        //                 rowsPerPageOptions={[5, 10, 20, 100]}
-        //                 colSpan={4}
-        //                 count={rows.length}
-        //                 rowsPerPage={rowsPerPage}
-        //                 page={page}
-        //                 onChangePage={this.handleChangePage}
-        //                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        //                 />
-        //             </TableRow>
-        //         </TableFooter>
-        //         </Table>
-        // </div>)
         (<div>
-            <h2>Исходящие сообщения</h2>
-            <EnhancedTable columns = {columns} renderBody = {this.renderBody} data = {rows}>
+            <EnhancedTable 
+                columns = {columns} 
+                renderBody = {this.renderBody} 
+                data = {rows} 
+                defaultOrder = {'lastUpdateTime'}
+                header = {'Входящие сообщения'}>
             </EnhancedTable>
         </div>)
         return(
