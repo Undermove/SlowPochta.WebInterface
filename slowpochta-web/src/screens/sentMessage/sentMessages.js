@@ -1,36 +1,28 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import MailOutline from '@material-ui/icons/MailOutline';
-import TableHead from '@material-ui/core/TableHead';
-import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Create from '@material-ui/icons/Create';
-import Delete from '@material-ui/icons/Delete';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import * as Rest from '../../restclient';
-import TablePaginationWrapped from '../../commonComponents/tablePagination';
+import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
-import Tooltip from '@material-ui/core/Tooltip';
 import EnhancedTable from '../../commonComponents/enhancedTable/enhancedTable'
 
 const columns = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-    { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-    { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-    { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-    { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+    { id: 'recieverLogin', numeric: false, disablePadding: true, label: 'Получатель' },
+    { id: 'messageText', numeric: false, disablePadding: false, label: 'Текст сообщения' },
+    { id: 'creationDate', numeric: false, disablePadding: false, label: 'Дата создания' },
+    { id: 'lastStatusDescription', numeric: true, disablePadding: false, label: 'Статус' },
+    { id: 'lastUpdateTime', numeric: true, disablePadding: false, label: 'Последнее обновление' },
+    { id: 'button'},
   ];
+
+const styles = theme => ({
+    root: { maxWidth:100, overflow: 'hidden'}
+});
 
 class SentMessages extends Component{
     constructor(props){
@@ -62,10 +54,11 @@ class SentMessages extends Component{
         this.setState({ rowsPerPage: event.target.value });
     };
 
-    renderBody = (isSelected, n) => {
+    renderBody = (isSelected, n, handleClick) => {
+        const { classes } = this.props;
         return <TableRow
             hover
-            onClick={event => this.handleClick(event, n.id)}
+            onClick={event => handleClick(event, n.id)}
             role="checkbox"
             aria-checked={isSelected}
             tabIndex={-1}
@@ -76,81 +69,36 @@ class SentMessages extends Component{
                 <Checkbox checked={isSelected} />
             </TableCell>
             <TableCell component="th" scope="row" padding="none">
-                {n.name}
+                {n.recieverLogin}
             </TableCell>
-            <TableCell align="right">{n.calories}</TableCell>
-            <TableCell align="right">{n.fat}</TableCell>
-            <TableCell align="right">{n.carbs}</TableCell>
-            <TableCell align="right">{n.protein}</TableCell>
+            <TableCell align="right" className={classes.root}>{this.sliceString(n.messageText)}</TableCell>
+            <TableCell align="right" className={classes.root}>{n.creationDate}</TableCell>
+            <TableCell align="right" className={classes.root}>{n.lastStatusDescription}</TableCell>
+            <TableCell align="right" className={classes.root}>{n.lastUpdateTime}</TableCell>
+            <TableCell  style = {{ width:10, textAlign:'right'}}>
+                <Button component = {NavLink} to={"/sentMessage/"+n.id}>
+                    <MailOutline />
+                </Button>
+            </TableCell>
         </TableRow>
     }
 
     render(){
-        const rows= this.state.protocolCatalogs;
-        const {page,rowsPerPage } = this.state;
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+        const rows = this.state.protocolCatalogs;
         const view = false ? (<div className='loader'><CircularProgress style={{color: '#f65d50'}} /></div>) :
         (<div>
 
         <h2>Исходящие сообщения</h2>
-        <EnhancedTable columns = {columns} renderBody = {this.renderBody}>
+        <EnhancedTable columns = {columns} renderBody = {this.renderBody} data = {rows}>
 
         </EnhancedTable>
-            {/* <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Получатель</TableCell>
-                    <TableCell>Текст</TableCell>
-                    <TableCell>Дата отправления</TableCell>
-                    <TableCell>Текущий статус доставки</TableCell>
-                    <TableCell>Последнее обновление</TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                    {this.state.protocolCatalogs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                        return (
-                        <TableRow style = {{maxHeight:5}} key={row.id}>
-                            <TableCell style = {{ maxWidth:100, overflow: 'hidden'}}>{row.recieverLogin}</TableCell>    
-                            <TableCell style = {{ maxWidth:300, overflow: 'hidden'}}> {this.sliceString(row.messageText)}</TableCell>    
-                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.creationDate}</TableCell>                      
-                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.lastStatusDescription}</TableCell>                      
-                            <TableCell style = {{ maxWidth:10, overflow: 'hidden'}}>{row.lastUpdateTime}</TableCell>                      
-                            <TableCell  style = {{ width:10, textAlign:'right'}}>
-                                <Button component = {NavLink} to={"/sentMessage/"+row.id}>
-                                    <MailOutline />
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                        );
-                    })}
-                    {emptyRows > 0 && (
-                        <TableRow style={{ height: 48 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                        </TableRow>
-                    )}
-                </TableBody>
-                <TableFooter style={{padding:200}}>
-                    <TableRow>
-                        <TablePagination
-                        rowsPerPageOptions={[5, 10, 20, 100]}
-                        colSpan={4}
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                        />
-                    </TableRow>
-                </TableFooter>
-            </Table> */}
         </div>)
         return(
             <div>
-            {view}
+                {view}
             </div>
-          );
+        );
     }
 }
 
-export default withRouter(SentMessages);
+export default withStyles(styles, { withTheme: true })(withRouter(SentMessages));
