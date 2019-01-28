@@ -7,7 +7,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import * as Rest from '../restclient';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -15,7 +14,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Badge from '@material-ui/core/Badge';
 
 export default class AuthDialog extends React.Component {
     constructor(props) {
@@ -32,7 +33,10 @@ export default class AuthDialog extends React.Component {
             password: "",
             value: 0,
             count: 0,
-            hubConnection: null
+            hubConnection: null,
+            ws: null,
+            unreadCounter: 0,
+            invisible: true
         }
 
         this.onLoginSubmit = this.onLoginSubmit.bind(this);
@@ -42,11 +46,31 @@ export default class AuthDialog extends React.Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.onRegister = this.onRegister.bind(this);
+        this.handleMessageNotification = this.handleMessageNotification.bind(this);
     };
 
     componentDidMount = () => {
-        this.ws = new WebSocket('ws://localhost:3000/ws');
-        this.ws.addEventListener('message', function(e) {console.log('Server: ' + e.data);})
+        // if user is running mozilla then use it's built-in WebSocket
+        this.ws = new WebSocket('ws://127.0.0.1:1337/test');
+        var self = this;
+        this.ws.addEventListener('message', function(e) {
+            var msg = JSON.parse(e.data);
+            if(msg.notification === "new message")
+            {
+                self.handleMessageNotification();
+            }
+        });
+        
+        var msg = {
+            type: 'authenticate',
+            token: sessionStorage.getItem("ttc.token")
+        };
+        
+        this.ws.onopen = function(){
+            this.send(JSON.stringify(msg));
+        }
+
+        this.setState({unreadCounter :localStorage.getItem('uncheckedCount')});
     }
 
     handleClickOpen = () => {
@@ -111,6 +135,12 @@ export default class AuthDialog extends React.Component {
         this.setState({ anchorEl: event.currentTarget });
     };
 
+    handleMessageNotification = event => {
+        var value = localStorage.getItem('uncheckedCount');
+        localStorage.setItem('uncheckedCount', ++value);
+        this.setState({unreadCounter:value});
+    };
+
     handleClose = () => {
         this.setState({ open: false });
         this.setState({ anchorEl: null });
@@ -122,12 +152,25 @@ export default class AuthDialog extends React.Component {
 
     render() {
         const { anchorEl } = this.state;
+        const { invisible } = this.state;
         return (
             <Router>
                 <div>
                     {sessionStorage.getItem('ttc.name') ? (
                         <div>
                             <div>
+                                <IconButton color="inherit">
+                                {this.state.unreadCounter > 11 ?  
+                                    <Badge badgeContent={this.state.unreadCounter} color="secondary">
+                                        <MailIcon/>
+                                    </Badge>:                                     
+                                        <MailIcon/>}
+                                </IconButton>
+                                <IconButton color="inherit">
+                                    <Badge color="secondary">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
                                 <IconButton aria-haspopup="true" component = {Link} to="/" color="inherit" onClick={this.handleClick}>
                                     <AccountCircle />
                                 </IconButton>

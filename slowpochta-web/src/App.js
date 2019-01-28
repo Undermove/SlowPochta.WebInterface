@@ -20,10 +20,6 @@ import Tab from '@material-ui/core/Tab';
 import SentMessages from './screens/sentMessage/sentMessages';
 import SentMessage from './screens/sentMessage/sentMessage';
 import NewMessage from './screens/newMessage/newMessage';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MenuItem from '@material-ui/core/MenuItem';
-import Badge from '@material-ui/core/Badge';
 
 const styles = theme => ({
   root: {
@@ -93,21 +89,6 @@ class App extends Component {
                 </Typography>
               </Router>
               <div className={classes.grow} />
-              {sessionStorage.getItem("ttc.name") ? 
-                <div>
-                  <IconButton color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                      <MailIcon />
-                    </Badge>
-                  </IconButton>
-                  <IconButton color="inherit">
-                    <Badge badgeContent={17} color="secondary">
-                      <NotificationsIcon />
-                    </Badge>
-                  </IconButton>
-                </div> : 
-                <div></div>
-              }
               <AuthDialog handleAuth={this.handleAuth}/>
             </Toolbar>
           </AppBar>
