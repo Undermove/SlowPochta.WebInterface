@@ -36,7 +36,7 @@ export default class AuthDialog extends React.Component {
             hubConnection: null,
             ws: null,
             unreadCounter: 0,
-            invisible: true
+            unwatchedCounter: 0,
         }
 
         this.onLoginSubmit = this.onLoginSubmit.bind(this);
@@ -46,11 +46,18 @@ export default class AuthDialog extends React.Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.onRegister = this.onRegister.bind(this);
+        this.onSuccessGet = this.onSuccessGet.bind(this);
         this.handleMessageNotification = this.handleMessageNotification.bind(this);
+        this.handleMessageMarkedRead = this.handleMessageMarkedRead.bind(this);
     };
 
     componentDidMount = () => {
-        // if user is running mozilla then use it's built-in WebSocket
+        var token = sessionStorage.getItem("ttc.token")
+        
+        if(token == null)
+        {
+            return;
+        }
         this.ws = new WebSocket('ws://127.0.0.1:1337/test');
         var self = this;
         this.ws.addEventListener('message', function(e) {
@@ -58,6 +65,10 @@ export default class AuthDialog extends React.Component {
             if(msg.notification === "new message")
             {
                 self.handleMessageNotification();
+            }
+            if(msg.notification === "message marked read")
+            {
+                self.handleMessageMarkedRead();
             }
         });
         
@@ -70,7 +81,21 @@ export default class AuthDialog extends React.Component {
             this.send(JSON.stringify(msg));
         }
 
-        this.setState({unreadCounter :localStorage.getItem('uncheckedCount')});
+        var value = sessionStorage.getItem('unreadCounter')
+        if(value == null)
+        {
+            Rest.GetMethod(this.onSuccessGet, "api/message/getnewmessagescount", true);
+        }
+
+        if(value != null)
+        {
+            this.setState({unreadCounter:value})
+        }
+    }
+
+    onSuccessGet(data){
+        sessionStorage.setItem('unreadCounter', data)
+        this.setState({unreadCounter : data});
     }
 
     handleClickOpen = () => {
@@ -136,8 +161,14 @@ export default class AuthDialog extends React.Component {
     };
 
     handleMessageNotification = event => {
-        var value = localStorage.getItem('uncheckedCount');
-        localStorage.setItem('uncheckedCount', ++value);
+        var value = sessionStorage.getItem('unreadCounter');
+        sessionStorage.setItem('unreadCounter', ++value);
+        this.setState({unreadCounter:value});
+    };
+    
+    handleMessageMarkedRead = event => {
+        var value = sessionStorage.getItem('unreadCounter');
+        sessionStorage.setItem('unreadCounter', --value);
         this.setState({unreadCounter:value});
     };
 
@@ -160,16 +191,18 @@ export default class AuthDialog extends React.Component {
                         <div>
                             <div>
                                 <IconButton color="inherit">
-                                {this.state.unreadCounter > 11 ?  
+                                {this.state.unreadCounter > 0 ?  
                                     <Badge badgeContent={this.state.unreadCounter} color="secondary">
                                         <MailIcon/>
                                     </Badge>:                                     
                                         <MailIcon/>}
                                 </IconButton>
                                 <IconButton color="inherit">
-                                    <Badge color="secondary">
+                                    {this.state.unwatchedCounter > 0 ?  
+                                    <Badge badgeContent={this.state.unwatchedCounter} color="secondary">
                                         <NotificationsIcon />
-                                    </Badge>
+                                    </Badge>:                                     
+                                        <NotificationsIcon />}
                                 </IconButton>
                                 <IconButton aria-haspopup="true" component = {Link} to="/" color="inherit" onClick={this.handleClick}>
                                     <AccountCircle />
