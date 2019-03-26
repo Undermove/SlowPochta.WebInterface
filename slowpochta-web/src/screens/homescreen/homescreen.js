@@ -1,18 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
 import Footer from '../../commonComponents/footer';
 import MessageStatusCard from '../../commonComponents/messageStatusCard';
 import { withStyles } from '@material-ui/core/styles';
@@ -46,7 +37,7 @@ const styles = theme => ({
     },
   },
   cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`,
+    padding: `${theme.spacing.unit * 5}px 0`,
   },
   card: {
     height: '100%',
@@ -69,8 +60,6 @@ const styles = theme => ({
     height: 260,
   },
 });
-
-const cards = [1, 2, 3, 4];
 
 function HomeScreen(props) {
   const { classes } = props;
@@ -110,16 +99,16 @@ function HomeScreen(props) {
             </Typography>
           <Grid container spacing={40}>
               <Grid item key={1} sm={6} md={4} lg={3}>
-                <MessageStatusCard id = {"slowpostman"} header={"Знай своего маскота!"} text={"Это Slowpostman (Медленныйпочтальон)! И он офигенный! Он может вообще все. Если он чего-то не умеет, это значит, что ему это просто не нужно. Любите его, он единственный, кто упорно дотаскивает ваши письма до наших серверов. точнее до нашего сервера. И не серчайте, он работает в нашем недавно открывшемся банке. Картинка с его изобраением нахально украдена, конечно, но это не мешает ему быть собой."}></MessageStatusCard>
+                <MessageStatusCard id = {"slowpostman.jpg"} header={"Знай своего маскота!"} text={"Это Slowpostman (Медленныйпочтальон)! И он офигенный! Он может вообще все. Если он чего-то не умеет, это значит, что ему это просто не нужно. Любите его, он единственный, кто упорно дотаскивает ваши письма до наших серверов. точнее до нашего сервера. И не серчайте, он работает в нашем недавно открывшемся банке. Картинка с его изобраением нахально украдена, конечно, но это не мешает ему быть собой."}></MessageStatusCard>
               </Grid>
               <Grid item key={2} sm={6} md={4} lg={3}>
-                <MessageStatusCard id = {"2"} header={"Мы доставляем письма медленно."} text={"В век высоких технологий и широкополосного интернета, все привыкли все ускорять, мы же не поддаемся на новомодные тенденции и все качественно замедляем. То есть мы делаем так чтобы все ваши миллиарды терабайт пропускной способности работали так же хорошо, как и повозка в которую запряжена чахлая лошаденка."}></MessageStatusCard>
+                <MessageStatusCard id = {"slowpochta_logo.png"} header={"Мы доставляем письма медленно."} text={"В век высоких технологий и широкополосного интернета, все привыкли все ускорять, мы же не поддаемся на новомодные тенденции и все качественно замедляем. То есть мы делаем так чтобы все ваши миллиарды терабайт пропускной способности работали так же хорошо, как и повозка в которую запряжена чахлая лошаденка."}></MessageStatusCard>
               </Grid>
               <Grid item key={3} sm={6} md={4} lg={3}>
-                <MessageStatusCard id = {1} header={"Душевно"} text={"Самое главное, что потеряли письма - это дух приключений. Вот оно пришло к вам мятое, в каких-то пятнах и пахнущее масляной рыбой. Но оно пришло! И это самоценно для вас. А теперь, когда ваше письмо лежит в облаке, многократно откопированное на случай пожара в серверной, оно перестало быть таким желанным. Нажимая кнопку отправить с любовным признаением, вы точно знаете, что оно дойдет до адресата, и нет этой магии, что ваше идиотское решение приходит в тот момент, когда вы уже расслабились. Кара наступает сразу, когда вы как раз поджали сфинктер."}></MessageStatusCard>
+                <MessageStatusCard id = {"dushevno.jpg"} header={"Душевно"} text={"Самое главное, что потеряли письма - это дух приключений. Вот оно пришло к вам мятое, в каких-то пятнах и пахнущее масляной рыбой. Но оно пришло! И это самоценно для вас. А теперь, когда ваше письмо лежит в облаке, многократно откопированное на случай пожара в серверной, оно перестало быть таким желанным. Нажимая кнопку отправить с любовным признаением, вы точно знаете, что оно дойдет до адресата, и нет этой магии, что ваше идиотское решение приходит в тот момент, когда вы уже расслабились. Кара наступает сразу, когда вы как раз поджали сфинктер."}></MessageStatusCard>
               </Grid>
               <Grid item key={0} sm={6} md={4} lg={3}>
-                <MessageStatusCard id = {5} header={"Мы любим вас"} text={"Мы любим наших пользователей, просто наша любовь к вам выражается через ненависть и непрофессионализм."}></MessageStatusCard>
+                <MessageStatusCard id = {"5.jpg"} header={"Мы любим вас"} text={"Мы любим наших пользователей, просто наша любовь к вам выражается через ненависть и непрофессионализм."}></MessageStatusCard>
               </Grid>
           </Grid>
         </div>

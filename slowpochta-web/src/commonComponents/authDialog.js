@@ -249,12 +249,16 @@ export default class AuthDialog extends React.Component {
                                     onChange={this.handleLoginChange}
                                 />
                                 <TextField
-                                    autoFocus
                                     margin="dense"
                                     id="password"
                                     label="Пароль"
                                     type="password"
                                     fullWidth
+                                    // onKeyPress={(ev) => {
+                                    //     if (ev.ctrlKey && ev.key === 'Enter') {
+                                    //         this.onLoginSubmit() // here was the mistake
+                                    //     }
+                                    //   }}
                                     onChange={this.handlePasswordChange}
                                 />
                             </DialogContent>
@@ -279,7 +283,6 @@ export default class AuthDialog extends React.Component {
                                     onChange={this.handleLoginChange}
                                 />
                                 <TextField
-                                    autoFocus
                                     margin="dense"
                                     id="password"
                                     label="Придумайте Пароль"

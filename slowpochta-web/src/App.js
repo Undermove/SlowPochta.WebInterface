@@ -1,25 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Link  } from 'react-router-dom';
+import { BrowserRouter as Router, Link  } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import HomeScreen from './screens/homescreen/homescreen';
 import AuthDialog from './commonComponents/authDialog';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Footer from './commonComponents/footer';
 import MenuBar from './menubar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import SentMessages from './screens/sentMessage/sentMessages';
-import SentMessage from './screens/sentMessage/sentMessage';
-import NewMessage from './screens/newMessage/newMessage';
 
 const styles = theme => ({
   root: {

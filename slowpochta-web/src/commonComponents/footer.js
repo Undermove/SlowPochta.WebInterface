@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 var style = {
     backgroundColor: "#F8F8F8",

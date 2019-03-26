@@ -1,5 +1,5 @@
 // export const url = "https://localhost:5003/";
-export const url = "https://localhost:50501/";
+export const url = "https://slowpochta.ru:9080/";
 
 export function GetMethod(callbackOnSuccess, route, needAnswer, callbackOnError){
     var xhr = new XMLHttpRequest();

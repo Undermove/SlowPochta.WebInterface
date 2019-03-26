@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import * as Rest from '../../restclient';
-import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import MessageStatusCard from '../../commonComponents/messageStatusCard'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 
 const styles = theme => ({
     root: {
