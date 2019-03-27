@@ -11,6 +11,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -31,6 +33,8 @@ export default class AuthDialog extends React.Component {
             open: false,
             login: "",
             password: "",
+            repeatPassword: "",
+            isAgreed: false,
             value: 0,
             count: 0,
             hubConnection: null,
@@ -44,6 +48,8 @@ export default class AuthDialog extends React.Component {
         this.onErrorAuth = this.onErrorAuth.bind(this);
         this.handleLoginChange = this.handleLoginChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleRepeatPasswordChange = this.handleRepeatPasswordChange.bind(this);
+        this.handleAgreementChange = this.handleAgreementChange.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.onRegister = this.onRegister.bind(this);
         this.onSuccessGet = this.onSuccessGet.bind(this);
@@ -112,6 +118,18 @@ export default class AuthDialog extends React.Component {
 
     onRegistrationSubmit = () => {
         var data = {};
+        if(this.state.password != this.state.repeatPassword)
+        {
+            alert("Paswords doesn't equals. Не совпадают пароли короче.");
+            return;
+        }
+
+        if(!this.state.isAgreed)
+        {
+            alert("Accept agreement. Прими соглашение!")
+            return;
+        }
+
         data["login"] = this.state.login;
         data["password"] = this.state.password;
         this.setState({ loginLoading: true, anchorEl: null });
@@ -147,6 +165,10 @@ export default class AuthDialog extends React.Component {
     handlePasswordChange(event) {
         this.setState({ password: event.target.value });
     }
+
+    handleRepeatPasswordChange(event) {
+        this.setState({ repeatPassword: event.target.value });
+    }
     
     handleLogout(event) {
         sessionStorage.clear();
@@ -181,9 +203,13 @@ export default class AuthDialog extends React.Component {
         this.setState({ value });
     };
 
+    handleAgreementChange = name => event => {
+        this.setState({ [name]: event.target.checked });
+    };
+
     render() {
         const { anchorEl } = this.state;
-        const { invisible } = this.state;
+
         return (
             <Router>
                 <div>
@@ -213,12 +239,12 @@ export default class AuthDialog extends React.Component {
                                     open={Boolean(anchorEl)}
                                     onClose={this.handleClose}
                                     >
-                                    <MenuItem onClick={this.handleClose} >Профиль</MenuItem>
+                                    {/* <MenuItem onClick={this.handleClose} >Профиль</MenuItem> */}
                                     <MenuItem onClick={this.handleLogout}>Разлогиниться</MenuItem>
                                 </Menu>
                             </div>   
                         </div>
-                    ) : <Button color="inherit" onClick={this.handleClickOpen} component = {Link} to="/receivedMessages">ВХОД</Button>}
+                    ) : <Button color="inherit" onClick={this.handleClickOpen}>ВХОД</Button>}
                     <Dialog
                         open={this.state.open}
                         onClose={this.handleClose}
@@ -254,16 +280,11 @@ export default class AuthDialog extends React.Component {
                                     label="Пароль"
                                     type="password"
                                     fullWidth
-                                    // onKeyPress={(ev) => {
-                                    //     if (ev.ctrlKey && ev.key === 'Enter') {
-                                    //         this.onLoginSubmit() // here was the mistake
-                                    //     }
-                                    //   }}
                                     onChange={this.handlePasswordChange}
                                 />
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={this.onLoginSubmit} color="primary">
+                                <Button onClick={this.onLoginSubmit} component = {Link} to="/receivedMessages" color="primary">
                                     ВХОД
                                 </Button>
                                 <Button onClick={this.handleClose} color="secondary">
@@ -285,11 +306,26 @@ export default class AuthDialog extends React.Component {
                                 <TextField
                                     margin="dense"
                                     id="password"
-                                    label="Придумайте Пароль"
+                                    label="Придумайте Пароль. ПАРОЛИ ХРАНИМ В ОТКРЫТОМ ВИДЕ!!!"
                                     type="password"
                                     fullWidth
                                     onChange={this.handlePasswordChange}
                                 />
+                                <TextField
+                                    margin="dense"
+                                    id="password"
+                                    label="Повторите придуманный пароль."
+                                    type="password"
+                                    fullWidth
+                                    onChange={this.handleRepeatPasswordChange}
+                                />
+                                <Typography component="div">
+                                    <Checkbox
+                                        checked={this.state.isAgreed}
+                                        onChange={this.handleAgreementChange('isAgreed')}
+                                        value={this.state.isAgreed}
+                                    />Я прочитал и с удовольствием принимаю концепции с главной страницы.
+                                </Typography>
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={this.onRegistrationSubmit} color="primary">

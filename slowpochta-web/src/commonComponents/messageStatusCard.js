@@ -13,19 +13,15 @@ import SimpleDialog from '../commonComponents/simpleDialog'
 
 const styles = {
   card: {
-    height: 400,
-    width: 272,
+    width: 270,
     margin: 10,
     marginLeft: 25,
-    position: 'relative'
   },
   media: {
     height: 150,
   },
   controls:{
     disableActionSpacing: true,
-    // todo: поправить на нормальное смещение
-    position: 'absolute',
     bottom: 0,
     left: 0
   }
@@ -66,7 +62,7 @@ class MessageStatusCard extends React.Component {
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={"/static/images/cards/" + this.props.id}
+            image={"/static/images/cards/" + this.props.id + ".jpg"}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
@@ -90,7 +86,7 @@ class MessageStatusCard extends React.Component {
             onClose={this.handleClose}
             header = {this.props.header}
             text = {this.props.text}
-            image = {"/static/images/cards/" + this.props.id}
+            image = {"/static/images/cards/" + this.props.id + ".jpg"}
           />
       </Card>
     );

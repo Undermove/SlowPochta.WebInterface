@@ -53,7 +53,7 @@ class App extends Component {
   };
 
   handleClick = () => {
-    window.location.reload();
+    window.reload();
   };
 
   handleAuth = (event, value) => {
